@@ -5,50 +5,136 @@
         <title>curd-vuejs2-php-mysqli</title>
         <link rel="icon" href="vuejs_logo.png" type="image/gif" sizes="16x16">
         <link rel="stylesheet" type="text/css" href="css/styles.css">
-        <script type="text/javascript" src="vuejs/axios.js"></script>
-        <!-- axios.js not dependent with vue.js SO you can use it any here of you project head/body -->
-        <style type="text/css">
-
-            
-
-        </style>
-
+        
     </head>
 
     <body>
 
         <div id="root">
-            
-            <button @click="getPosts()">Call API</button>
 
-            <div v-for="post in posts">
-                <h3>{{ post.name }}</h3>
-                <img v-bind:src="post.photo }}" alt="" width="300px" height="300px">
+            <div class="container">
+
+                <h1 class="fleft">List of Users</h1>
+                <button class="fright" @click="showingAddModal = true">Add New</button>
+                <div class="clear"></div>
+
+                <hr>
+
+                <table class="List">
+                    <tr>
+                        <th>ID</th>
+                        <th>UserName</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>kisorniru</td>
+                        <td>kisorniru@gmail.com</td>
+                        <td>1212121</td>
+                        <td><button @click="showingEditModal = true">Edit</button></td>
+                        <td><button @click="showingDeleteModal = true">Delete</button></td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div class="modal" id="addModal" v-if="showingAddModal">
+                
+                <div class="modalContainer">
+                    <div class="modalHeading">
+                        <p class="fleft">Add New User</p>
+                        <button class="fright close" @click="showingAddModal = false">X</button>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="modalContent">
+                        <table class="form">
+                            <tr>
+                                <th>UserName</th>
+                                <th> : </th>
+                                <td><input type="text" name=""></td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <th> : </th>
+                                <td><input type="text" name=""></td>
+                            </tr>
+                            <tr>
+                                <th>Mobile</th>
+                                <th> : </th>
+                                <td><input type="text" name=""></td>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th> </th>
+                                <th> <button @click="showingAddModal = false">Save</button> </th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal" id="editModal" v-if="showingEditModal">
+                
+                <div class="modalContainer">
+                    <div class="modalHeading">
+                        <p class="fleft">Edit This User</p>
+                        <button class="fright close" @click="showingEditModal = false">X</button>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="modalContent">
+                        <table class="form">
+                            <tr>
+                                <th>UserName</th>
+                                <th> : </th>
+                                <td><input type="text" name=""></td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <th> : </th>
+                                <td><input type="text" name=""></td>
+                            </tr>
+                            <tr>
+                                <th>Mobile</th>
+                                <th> : </th>
+                                <td><input type="text" name=""></td>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th> </th>
+                                <th> <button @click="showingEditModal = false">Update</button> </th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+             <div class="modal" id="deleteModal" v-if="showingDeleteModal">
+                
+                <div class="modalContainer">
+                    <div class="modalHeading">
+                        <p class="fleft">Delete This User</p>
+                        <button class="fright close" @click="showingDeleteModal = false">X</button>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="modalContent">
+                        <p>You are going to delete .....</p>
+                        <br><br><br><br><br>
+                        <button @click="showingDeleteModal = false">Yes</button>
+                        <button @click="showingDeleteModal = false">No</button>
+                    </div>
+                </div>
+
             </div>
 
         </div>
 
         <script type="text/javascript" src="vuejs/vue.js"></script>
-        <script type="text/javascript">
-
-            // This is accessable from local
-            var app = new Vue({
-                el: '#root',
-                data: {
-                    posts: []
-                },
-                methods: {
-                    getPosts: function(){
-                        var currentApp = this;
-                        axios.get("https://kisorniru.github.io/json-example/pets-data.json")
-                        .then(function(apiResponse){
-                            currentApp.posts = apiResponse.data.pets;
-                            console.log(currentApp.posts);
-                        });
-                    }
-                }
-            });
-
-        </script>
+        <script type="text/javascript" src="vuejs/app.js"></script>
     </body>
+
 </html>
