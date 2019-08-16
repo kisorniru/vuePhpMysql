@@ -10,8 +10,6 @@
 
 	$response = array('error' => false);
 
-	$action = 'read';
-
 	if (isset($_GET['action'])) {
 		$action = $_GET['action'];
 	}
@@ -22,6 +20,7 @@
 		while ($row = $result->fetch_assoc()) {
 			array_push($users, $row);
 		}
+		$response['message'] = "All users information loaded successfully.";
 		$response['users'] = $users;
 	}
 
@@ -48,7 +47,7 @@
 		$email = $_POST['email'];
 		$mobile = $_POST['mobile'];
 
-		$result = $conn->query("update `users` set `username` = $username, `email` = $email, `mobile` = '$mobile' where `id` = $id");
+		$result = $conn->query("update `users` set `username` = '$username', `email` = '$email', `mobile` = '$mobile' where `id` = '$id'");
 
 		if ($result) {
 			$response['message'] = "user updated successfully";
@@ -62,7 +61,7 @@
 
 		$id = $_POST['id'];
 
-		$result = $conn->query("delete from `users` where `id` = $id");
+		$result = $conn->query("delete from `users` where `id` = '$id'");
 
 		if ($result) {
 			$response['message'] = "user deleted successfully";

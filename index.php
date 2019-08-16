@@ -5,6 +5,7 @@
         <title>curd-vuejs2-php-mysqli</title>
         <link rel="icon" href="vuejs_logo.png" type="image/gif" sizes="16x16">
         <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <script type="text/javascript" src="vuejs/axios.js"></script>
         
     </head>
 
@@ -20,6 +21,14 @@
 
                 <hr>
 
+                <p class="errorMessage" v-if="errorMessage">
+                    {{ errorMessage }}
+                </p>
+
+                <p class="successMessage" v-if="successMessage">
+                    {{ successMessage }}
+                </p>
+
                 <table class="List">
                     <tr>
                         <th>ID</th>
@@ -29,13 +38,13 @@
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>kisorniru</td>
-                        <td>kisorniru@gmail.com</td>
-                        <td>1212121</td>
-                        <td><button @click="showingEditModal = true">Edit</button></td>
-                        <td><button @click="showingDeleteModal = true">Delete</button></td>
+                    <tr v-for="user, i in users">
+                        <td>{{ i+1 }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.mobile }}</td>
+                        <td><button @click="showingEditModal = true; getCurrentUser(user);">Edit</button></td>
+                        <td><button @click="showingDeleteModal = true; getCurrentUser(user);">Delete</button></td>
                     </tr>
                 </table>
 
@@ -54,22 +63,22 @@
                             <tr>
                                 <th>UserName</th>
                                 <th> : </th>
-                                <td><input type="text" name=""></td>
+                                <td><input type="text" name="" v-model="newUser.username"></td>
                             </tr>
                             <tr>
                                 <th>Email</th>
                                 <th> : </th>
-                                <td><input type="text" name=""></td>
+                                <td><input type="text" name="" v-model="newUser.email"></td>
                             </tr>
                             <tr>
                                 <th>Mobile</th>
                                 <th> : </th>
-                                <td><input type="text" name=""></td>
+                                <td><input type="text" name="" v-model="newUser.mobile"></td>
                             </tr>
                             <tr>
                                 <th></th>
                                 <th> </th>
-                                <th> <button @click="showingAddModal = false">Save</button> </th>
+                                <th> <button @click="showingAddModal = false; saveUser();">Save</button> </th>
                             </tr>
                         </table>
                     </div>
@@ -90,22 +99,22 @@
                             <tr>
                                 <th>UserName</th>
                                 <th> : </th>
-                                <td><input type="text" name=""></td>
+                                <td><input type="text" name="" v-model="selectedUser.username"></td>
                             </tr>
                             <tr>
                                 <th>Email</th>
                                 <th> : </th>
-                                <td><input type="text" name=""></td>
+                                <td><input type="text" name="" v-model="selectedUser.email"></td>
                             </tr>
                             <tr>
                                 <th>Mobile</th>
                                 <th> : </th>
-                                <td><input type="text" name=""></td>
+                                <td><input type="text" name="" v-model="selectedUser.mobile"></td>
                             </tr>
                             <tr>
                                 <th></th>
                                 <th> </th>
-                                <th> <button @click="showingEditModal = false">Update</button> </th>
+                                <th> <button @click="showingEditModal = false; updateUser();">Update</button> </th>
                             </tr>
                         </table>
                     </div>
@@ -117,14 +126,14 @@
                 
                 <div class="modalContainer">
                     <div class="modalHeading">
-                        <p class="fleft">Delete This User</p>
+                        <p class="fleft">Are you sure?</p>
                         <button class="fright close" @click="showingDeleteModal = false">X</button>
                         <div class="clear"></div>
                     </div>
                     <div class="modalContent">
-                        <p>You are going to delete .....</p>
+                        <p>You are going to delete <b>Mr. {{ selectedUser.username }}</b> from the list</p>
                         <br><br><br><br><br>
-                        <button @click="showingDeleteModal = false">Yes</button>
+                        <button @click="showingDeleteModal = false; deleteUser();">Yes</button>
                         <button @click="showingDeleteModal = false">No</button>
                     </div>
                 </div>
